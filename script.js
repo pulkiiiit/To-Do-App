@@ -1,13 +1,15 @@
 // constants
 const taskButton = document.getElementById("taskButton");
 const taskInput = document.getElementById("taskText");
-const tasks = document.getElementById("tasks");
 const task = document.createElement("div");
+const listOfTask = document.getElementById("listOfTasks");
 
 // variables
 let taskText = "";
 let taskCounter = 0;
 let active = true;
+let statusOfTask = false;
+let allChecked = false;
 
 taskButton.addEventListener("click", addTask);
 
@@ -19,6 +21,12 @@ function addTask() {
 
 function createTask(task) {
   if (task != "") {
+    if (statusOfTask === false) {
+      const tasks = document.createElement("div");
+      tasks.id = "tasks";
+      listOfTask.appendChild(tasks);
+      statusOfTask = true;
+    }
     taskCounter++;
     const item = document.createElement("div");
     item.id = "item" + taskCounter;
@@ -27,7 +35,7 @@ function createTask(task) {
     const toDo = document.createElement("p");
     toDo.className = "task";
     toDo.textContent = task;
-    toDo.style.fontSize = "22px";
+    toDo.style.fontSize = "20px";
     toDo.style.color = "green";
     item.appendChild(toDo);
     const options = document.createElement("div");
@@ -61,10 +69,31 @@ function createTask(task) {
       }
     };
   }
+}
 
-  function deleteAll () {
-    for (let index = 1; index < taskCounter; index++) {
-      
-    }
+function deleteAll() {
+  listOfTask.removeChild(tasks);
+  statusOfTask = false;
+}
+
+function checkAll() {
+  const CollectionOfAllTheTask = document.getElementsByClassName("task");
+  const allTask = Array.from(CollectionOfAllTheTask);
+
+  if (allChecked == false) {
+    allTask.forEach(function (element) {
+      element.style.textDecoration = "line-through";
+      element.style.color = "red";
+      allChecked = true;
+      console.log("this is runned");
+    });
+  } else {
+    allTask.forEach(function (element) {
+      element.style.textDecoration = "none";
+      element.style.color = "green";
+      allChecked = false;
+    });
   }
+
+  console.log(allTask);
 }
